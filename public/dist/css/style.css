@@ -1,0 +1,28 @@
+.img-css {
+    border-radius: 10px;
+    width: 350px;
+    display: block;
+}
+
+.btnKursitrue {
+    padding: 5px;
+    background-color: rgb(79, 192, 79);
+    border-radius: 5px;
+    color: white;
+}
+
+.btnKursifalse {
+    padding: 5px;
+    background-color: rgb(218, 61, 61);
+    border-radius: 5px;
+    color: white;
+}
+
+.container-pengikut {
+    border: 1px solid whitesmoke;
+    padding: 5px;
+}
+
+.disabled .disabled-date .day {
+    color: red !important;
+}
