@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PDF;
 
 class OwnerController extends Controller
 {
@@ -598,5 +599,34 @@ class OwnerController extends Controller
         } else {
             return redirect('/owner/transaction/jurnal')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal menghapus data jurnal!'));
         }
+    }
+
+    public function transaction_report_view()
+    {
+        $parseData = [
+            'title' => 'Laporan Transaksi'
+        ];
+
+        return view('transaction.report.index', $parseData);
+    }
+
+    public function transaction_report_process(Request $r)
+    {
+        $r->validate([
+            'date_from' => 'required',
+            'date_to' => 'required'
+        ]);
+
+        $transactions = Transaction::with('customer', 'cashier')->whereBetween('transactions.created_at', [$r->date_from, $r->date_to])->get();
+
+        $parseData = [
+            'transactions' => $transactions,
+            'date_from' => $r->date_from,
+            'date_to' => $r->date_to,
+        ];
+
+        $pdf = PDF::loadView('transaction.report.cetak', $parseData);
+
+        return $pdf->download('laporan_transaksi.pdf');
     }
 }

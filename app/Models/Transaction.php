@@ -12,4 +12,14 @@ class Transaction extends Model
     protected $fillable = [
         'id', 'total', 'customer_id', 'cashier_id'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer', 'customer_id');
+    }
+
+    public function cashier()
+    {
+        return $this->belongsTo('App\Models\User', 'cashier_id');
+    }
 }

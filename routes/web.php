@@ -73,6 +73,10 @@ Route::prefix('/owner')->middleware('cekLevel:owner')->group(function () {
     Route::post('transaction/jurnal', [\App\Http\Controllers\OwnerController::class, 'transaction_jurnal_post'])->name('transaction_jurnal_post');
     Route::post('transaction/jurnal/{id}', [\App\Http\Controllers\OwnerController::class, 'transaction_jurnal_post_edit'])->name('transaction_jurnal_post_edit');
     Route::get('transaction/jurnal/{id}', [\App\Http\Controllers\OwnerController::class, 'transaction_jurnal_hapus_proses'])->name('transaction_jurnal_hapus_proses');
+
+    // laporan transaksi
+    Route::get('transaction/report', [\App\Http\Controllers\OwnerController::class, 'transaction_report_view'])->name('transaction_report_view');
+    Route::post('transaction/report', [\App\Http\Controllers\OwnerController::class, 'transaction_report_process'])->name('transaction_report_process');
 });
 
 Route::prefix('/kasir')->middleware('cekLevel:kasir')->group(function () {

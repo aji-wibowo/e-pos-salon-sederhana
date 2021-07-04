@@ -161,6 +161,14 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('transaction_report_view') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    <p>
+                                        Laporan Transaksi
+                                    </p>
+                                </a>
+                            </li>
                         @elseif(Auth::user()->level == 'kasir')
                             <li class="nav-item">
                                 <a href="{{ url('/kasir/master/product') }}" class="nav-link">
