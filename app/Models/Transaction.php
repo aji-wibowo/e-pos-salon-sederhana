@@ -22,4 +22,9 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\Models\User', 'cashier_id');
     }
+
+    public function jurnal()
+    {
+        return $this->hasOne('App\Models\JournalTransaction', 'transaction_id');
+    }
 }

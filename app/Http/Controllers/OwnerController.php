@@ -617,7 +617,7 @@ class OwnerController extends Controller
             'date_to' => 'required'
         ]);
 
-        $transactions = Transaction::with('customer', 'cashier')->whereBetween('transactions.created_at', [$r->date_from, $r->date_to])->get();
+        $transactions = Transaction::with('customer', 'cashier', 'jurnal.account')->whereBetween('transactions.created_at', [$r->date_from, $r->date_to])->get();
 
         $parseData = [
             'transactions' => $transactions,
@@ -627,6 +627,6 @@ class OwnerController extends Controller
 
         $pdf = PDF::loadView('transaction.report.cetak', $parseData);
 
-        return $pdf->download('laporan_transaksi.pdf');
+        return $pdf->stream('laporan_transaksi.pdf');
     }
 }
