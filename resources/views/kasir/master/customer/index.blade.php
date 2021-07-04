@@ -11,31 +11,30 @@
                                 class="btn btn-sm btn-success btnTambah mb-2">tambah</a>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-stripped" id="tblProduct">
+                            <table class="table table-stripped" id="tblUser">
                                 <thead>
                                     <tr>
                                         <td>ID</td>
-                                        <td>Nama</td>
-                                        <td>Stok</td>
-                                        <td>Unit</td>
-                                        <td>Harga</td>
+                                        <td>Name</td>
+                                        <td>Alamat</td>
+                                        <td>No. Telp.</td>
                                         <td>#</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($product as $u)
+                                    @foreach ($customer as $u)
                                         <tr>
                                             <td>{{ $u->id }}</td>
                                             <td>{{ $u->name }}</td>
-                                            <td>{{ $u->stock }}</td>
-                                            <td>{{ $u->unit }}</td>
-                                            <td>{{ $u->price }}</td>
+                                            <td>{{ $u->address }}</td>
+                                            <td>{{ $u->phone_number }}</td>
                                             <td>
                                                 <a data-id="{{ $u->id }}" data-name="{{ $u->name }}"
-                                                    data-stock="{{ $u->stock }}" data-unit="{{ $u->unit }}"
-                                                    data-price="{{ $u->price }}" href="#" data-toggle="modal"
-                                                    data-target="#modalForm" class="btn btn-sm btn-warning btnEdit">edit</a>
-                                                <a href="{{ route('kasir_master_product_delete_process', ['id' => $u->id]) }}"
+                                                    data-address="{{ $u->address }}"
+                                                    data-phone_number="{{ $u->phone_number }}" href="#"
+                                                    data-toggle="modal" data-target="#modalForm"
+                                                    class="btn btn-sm btn-warning btnEdit">edit</a>
+                                                <a href="{{ route('kasir_master_customer_delete_process', ['id' => $u->id]) }}"
                                                     class="btn btn-sm btn-danger btnDelete">delete</a>
                                             </td>
                                         </tr>
@@ -65,19 +64,14 @@
                                                     placeholder="Masukan nama nama">
                                             </div>
                                             <div class="form-group">
-                                                <label for="stock">Stok</label>
-                                                <input type="number" name="stock" id="stock" class="form-control"
-                                                    placeholder="Masukan stok produk">
+                                                <label for="address">Alamat</label>
+                                                <textarea name="address" id="address" cols="30" rows="5"
+                                                    class="form-control" placeholder="Masukan alamat Anda"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label for="unit">Unit</label>
-                                                <input type="text" name="unit" id="unit" class="form-control"
-                                                    placeholder="Masukan unit produk">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="price">Harga</label>
-                                                <input type="number" name="price" id="price" class="form-control"
-                                                    placeholder="Masukan harga">
+                                                <label for="phone_number">Nomor Telpon</label>
+                                                <input type="number" name="phone_number" id="phone_number"
+                                                    class="form-control" placeholder="Masukan nama phone_number">
                                             </div>
                                         </form>
                                     </div>
@@ -97,15 +91,14 @@
 
     <script>
         $(document).ready(function() {
-            $('#tblProduct').DataTable();
+            $('#tblUser').DataTable();
 
             $('.btnTambah').click(function(e) {
                 e.preventDefault();
                 $('#tambahan').html('');
                 $('#modalForm form')[0].reset();
-                $('#modalForm .modal-title').html('Tambah Master Produk');
-                $('#modalForm form').attr('action',
-                    "{{ route('kasir_master_product_insert_process') }}")
+                $('#modalForm .modal-title').html('Tambah Master Customer');
+                $('#modalForm form').attr('action', "{{ route('kasir_master_customer_insert_process') }}")
             });
 
             // edit button action
@@ -117,20 +110,18 @@
                 $('#tambahan').append(
                     '<mall style="color:red">Isi bila ingin mengganti password</small>')
 
-                $('#modalForm .modal-title').html('Ubah Master Produk');
+                $('#modalForm .modal-title').html('Ubah Master Customer');
                 $('#modalForm form')[0]
                     .reset();
                 $('#modalForm form').attr(
                     'action',
-                    "{{ url('/kasir/master/product/update/process/') }}/" +
+                    "{{ url('/kasir/master/customer/update/process/') }}/" +
                     id + "");
 
                 $('input[name="name"]').val($(this).attr('data-name'));
-                $('input[name="stock"]').val($(this).attr('data-stock'));
-                $('input[name="unit"]').val($(this).attr('data-unit'));
                 $(
-                    'textarea[name="type_of_hair"]').val($(this).attr('data-type_of_hair'));
-                $('input[name="price"]').val($(this).attr('data-price'));
+                    'textarea[name="address"]').val($(this).attr('data-address'));
+                $('input[name="phone_number"]').val($(this).attr('data-phone_number'));
             })
 
             $('.btnSave').click(function() {

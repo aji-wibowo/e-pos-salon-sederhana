@@ -169,6 +169,14 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/profil') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Profile
+                                    </p>
+                                </a>
+                            </li>
                         @elseif(Auth::user()->level == 'kasir')
                             <li class="nav-item">
                                 <a href="{{ url('/kasir/master/product') }}" class="nav-link">
@@ -179,10 +187,26 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ url('/kasir/master/customer') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-list"></i>
+                                    <p>
+                                        Master Customer
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ url('/kasir/transaction') }}" class="nav-link">
                                     <i class="nav-icon fas fa-credit-card"></i>
                                     <p>
                                         Transaksi
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/profil') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Profile
                                     </p>
                                 </a>
                             </li>
@@ -282,6 +306,16 @@
                     icon: '{{ Session::has('sweetAlertMessage') ? Session::get('sweetAlertMessage')['icon'] : '' }}',
                     title: '{{ Session::has('sweetAlertMessage') ? Session::get('sweetAlertMessage')['title'] : '' }}',
                     text: '{{ Session::has('sweetAlertMessage') ? Session::get('sweetAlertMessage')['text'] : '' }}'
+                })
+            }
+
+            var sValidationMessage = '{{ $errors->any() }}';
+
+            if (sValidationMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Maaf, Gagal!',
+                    text: 'Mohon input form dengan benar!'
                 })
             }
         });

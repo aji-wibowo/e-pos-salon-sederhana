@@ -1,5 +1,5 @@
 @extends('layouts.appPrimary')
 @section('title', $title)
 @section('content')
-    ok
+    Hai, selamat bekerja!
 @endsection

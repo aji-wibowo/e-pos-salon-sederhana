@@ -110,6 +110,77 @@ class KasirController extends Controller
         }
     }
 
+    // master customer
+    public function master_customer()
+    {
+        $customer = Customer::all();
+
+        $parseData = [
+            'title' => 'Master Customer | Kasir',
+            'customer' => $customer
+        ];
+
+        return view('kasir.master.customer.index', $parseData);
+    }
+
+    public function master_customer_tambah_proses(Request $r)
+    {
+        $r->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required'
+        ]);
+
+        $tambah = Customer::create([
+            'id' => $this->generateCodeId('customer'),
+            'name' => $r->name,
+            'address' => $r->address,
+            'phone_number' => $r->phone_number
+        ]);
+
+        if ($tambah) {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil menambah data Customer!'));
+        } else {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal menambah data master Customer!'));
+        }
+    }
+
+    public function master_customer_ubah_proses(Request $r, $id)
+    {
+        $r->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required'
+        ]);
+
+        $customer = Customer::find($id);
+
+        if ($customer == null) {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal mengubah data master Customer!'));
+        }
+
+        $customer->name = $r->name;
+        $customer->address = $r->address;
+        $customer->phone_number = $r->phone_number;
+
+        if ($customer->save()) {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil mengubah data master Customer!'));
+        } else {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal mengubah data master Customer!'));
+        }
+    }
+
+    public function master_customer_hapus_proses($id)
+    {
+        $admin = Customer::find($id);
+
+        if ($admin->delete()) {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil menghapus data master customer!'));
+        } else {
+            return redirect('/kasir/master/customer')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal menghapus data master customer!'));
+        }
+    }
+
     // transaction
     public function transaction_view()
     {

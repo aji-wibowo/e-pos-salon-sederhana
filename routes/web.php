@@ -24,11 +24,7 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::prefix('/kasir')->group(function () {
-    Route::get('/', [App\Http\Controllers\KasirController::class, 'index'])->name('kasir_home')->middleware('cekLevel:kasir');
-});
-
-Route::prefix('/owner')->middleware('cekLevel:owner')->group(function () {
+Route::prefix('/owner')->middleware('auth', 'cekLevel:owner')->group(function () {
     Route::get('/', [App\Http\Controllers\OwnerController::class, 'index'])->name('owner_home');
 
     // master user
@@ -79,12 +75,20 @@ Route::prefix('/owner')->middleware('cekLevel:owner')->group(function () {
     Route::post('transaction/report', [\App\Http\Controllers\OwnerController::class, 'transaction_report_process'])->name('transaction_report_process');
 });
 
-Route::prefix('/kasir')->middleware('cekLevel:kasir')->group(function () {
+Route::prefix('/kasir')->middleware('auth', 'cekLevel:kasir')->group(function () {
+    Route::get('/', [App\Http\Controllers\KasirController::class, 'index'])->name('kasir_home');
+
     // master produk
-    Route::get('/master/product', [\App\Http\Controllers\KasirController::class, 'master_product'])->name('owner_master_product');
-    Route::post('/master/product/insert/process', [\App\Http\Controllers\KasirController::class, 'master_product_tambah_proses'])->name('owner_master_product_insert_process');
-    Route::post('/master/product/update/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_product_ubah_proses'])->name('owner_master_product_update_process');
-    Route::get('/master/product/delete/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_product_hapus_proses'])->name('owner_master_product_delete_process');
+    Route::get('/master/product', [\App\Http\Controllers\KasirController::class, 'master_product'])->name('kasir_master_product');
+    Route::post('/master/product/insert/process', [\App\Http\Controllers\KasirController::class, 'master_product_tambah_proses'])->name('kasir_master_product_insert_process');
+    Route::post('/master/product/update/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_product_ubah_proses'])->name('kasir_master_product_update_process');
+    Route::get('/master/product/delete/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_product_hapus_proses'])->name('kasir_master_product_delete_process');
+
+    // master customer
+    Route::get('/master/customer', [\App\Http\Controllers\KasirController::class, 'master_customer'])->name('kasir_master_customer');
+    Route::post('/master/customer/insert/process', [\App\Http\Controllers\KasirController::class, 'master_customer_tambah_proses'])->name('kasir_master_customer_insert_process');
+    Route::post('/master/customer/update/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_customer_ubah_proses'])->name('kasir_master_customer_update_process');
+    Route::get('/master/customer/delete/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_customer_hapus_proses'])->name('kasir_master_customer_delete_process');
 
     // transaction
     Route::get('/transaction', [\App\Http\Controllers\KasirController::class, 'transaction_view'])->name('transaction_view');
@@ -92,4 +96,10 @@ Route::prefix('/kasir')->middleware('cekLevel:kasir')->group(function () {
     Route::post('/temporary/get', [\App\Http\Controllers\KasirController::class, 'temporary_get'])->name('temporary_get');
     Route::post('/temporary/delete', [\App\Http\Controllers\KasirController::class, 'temporary_delete'])->name('temporary_delete');
     Route::post('/transaction', [\App\Http\Controllers\KasirController::class, 'transaction_process'])->name('transaction_process');
+});
+
+
+Route::prefix('/')->middleware('auth')->group(function () {
+    Route::get('/profil', [\App\Http\Controllers\ProfileController::class, 'profile_view'])->name('profile_view');
+    Route::post('/profil', [\App\Http\Controllers\ProfileController::class, 'profile_process'])->name('profile_process');
 });
