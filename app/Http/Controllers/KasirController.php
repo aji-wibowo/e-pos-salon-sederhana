@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Transaction;
@@ -297,6 +298,85 @@ class KasirController extends Controller
 
                 return response()->json($data);
             }
+        }
+    }
+
+    // master akun
+    public function master_account()
+    {
+        $account = Account::all();
+
+        $parseData = [
+            'title' => 'Master Account | Kasir',
+            'account' => $account
+        ];
+
+        return view('kasir.master.account.index', $parseData);
+    }
+
+    public function master_account_tambah_proses(Request $r)
+    {
+        $r->validate([
+            'account_code' => 'required',
+            'name' => 'required',
+            'type_of_account' => 'required',
+            'account_status' => 'required',
+            'normal_saldo' => 'required'
+        ]);
+
+        $tambah = Account::create([
+            'id' => $this->generateCodeId('account'),
+            'account_code' => $r->account_code,
+            'name' => $r->name,
+            'type_of_account' => $r->type_of_account,
+            'account_status' => $r->account_status,
+            'normal_saldo' => $r->normal_saldo
+        ]);
+
+        if ($tambah) {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil menambah data account!'));
+        } else {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal menambah data master account!'));
+        }
+    }
+
+    public function master_account_ubah_proses(Request $r, $id)
+    {
+        $r->validate([
+            'account_code' => 'required',
+            'name' => 'required',
+            'type_of_account' => 'required',
+            'account_status' => 'required',
+            'normal_saldo' => 'required'
+        ]);
+
+        $akun = Account::find($id);
+
+        if ($akun == null) {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal mengubah data master account!'));
+        }
+
+        $akun->account_code = $r->account_code;
+        $akun->name = $r->name;
+        $akun->type_of_account = $r->type_of_account;
+        $akun->account_status = $r->account_status;
+        $akun->normal_saldo = $r->normal_saldo;
+
+        if ($akun->save()) {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil mengubah data master account!'));
+        } else {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal mengubah data master account!'));
+        }
+    }
+
+    public function master_account_hapus_proses($id)
+    {
+        $account = Account::find($id);
+
+        if ($account->delete()) {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('success', 'Selamat!', 'Anda telah berhasil menghapus data master account!'));
+        } else {
+            return redirect('/kasir/master/account')->with($this->messageSweetAlert('error', 'Maaf!', 'Anda telah gagal menghapus data master account!'));
         }
     }
 }

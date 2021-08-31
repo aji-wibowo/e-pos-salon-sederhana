@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('transaction_report_process') }}" method="post">
+                <form action="{{ route('transaction_report_jurnal_process') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -32,36 +32,23 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Customer</th>
-                                            <th>Kasir</th>
-                                            <th>Total</th>
-                                            <th>#</th>
+                                            <th>Kode Akun</th>
+                                            <th>Kas</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                            <th>Normal Saldo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($transactions as $u)
                                             <tr>
                                                 <td>{{ $u->id }}</td>
-                                                <td>{{ $u->customer->name }}</td>
-                                                <td>{{ $u->cashier->name }}</td>
-                                                <td>{{ $u->total }}</td>
-                                                <td class="clickable" data-toggle="collapse" id="row1"
-                                                    data-target=".row{{ $u->id }}">
-                                                    <a href="#" class="btn btn-sm btn-info">detail</a>
-                                                </td>
+                                                <td>{{ $u->account_code }}</td>
+                                                <td>{{ $u->name }}</td>
+                                                <td>{{ $u->type_of_account }}</td>
+                                                <td>{{ $u->account_status }}</td>
+                                                <td>{{ $u->normal_saldo }}</td>
                                             </tr>
-                                            @if ($u->detail != null)
-                                                @foreach ($u->detail as $i)
-                                                    <tr class="collapse row{{ $u->id }}">
-                                                        <td>- detail transaction</td>
-                                                        <td>{{ $i->product->name }}</td>
-                                                        <td>{{ $i->product->unit }}</td>
-                                                        <td>{{ $i->qty }}</td>
-                                                        <td>{{ $i->price }}</td>
-                                                        <td>{{ $i->subtotal }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -74,7 +61,7 @@
     </div>
     <script>
         $(document).ready(function() {
-            // $('#tblUser').DataTable({});
+            $('#tblUser').DataTable({});
         });
     </script>
 @endsection

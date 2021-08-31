@@ -216,7 +216,7 @@
                         "Anda harus memilih item atau mengisi jumlah barang terlebih dahulu!",
                         'warning');
                 } else {
-                    if (jumlah > stockKunci || jumlah == 0) {
+                    if (parseInt(jumlah) > parseInt(stockKunci) || jumlah == 0) {
                         Swal.fire('Gagal', 'Stok yang Anda masukan tidak cukup atau 0!!!', 'error');
                     } else {
                         $.ajax({

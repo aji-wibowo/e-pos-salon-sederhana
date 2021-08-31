@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\JournalTransaction;
 use App\Models\Treatment;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -80,16 +81,16 @@ class Controller extends BaseController
         } else if ($type == 'transaction') {
             $trx = Transaction::orderBy('created_at', 'desc')->limit(1)->first('id');
             if ($trx != null) {
-                $id = substr($trx->id, 4, 3);
+                $id = substr($trx->id, 8, 3);
                 $id = sprintf("%03d", $id + 1);
                 $id = $prefixTrx . $id;
             } else {
                 $id = $prefixTrx . "001";
             }
         } else if ($type == 'jurnal') {
-            $jrnl = Transaction::orderBy('created_at', 'desc')->limit(1)->first('id');
+            $jrnl = JournalTransaction::orderBy('created_at', 'desc')->limit(1)->first('id');
             if ($jrnl != null) {
-                $id = substr($jrnl->id, 8, 3);
+                $id = substr($jrnl->id, 4, 3);
                 $id = sprintf("%03d", ($id + 1));
                 $id = $prefixJournal . $id;
             } else {

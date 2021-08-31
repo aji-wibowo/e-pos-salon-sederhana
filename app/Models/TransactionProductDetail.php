@@ -12,4 +12,9 @@ class TransactionProductDetail extends Model
     protected $fillable = [
         'product_id', 'transaction_id', 'qty', 'price', 'subtotal'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'product_id');
+    }
 }

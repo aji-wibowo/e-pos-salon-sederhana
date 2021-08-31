@@ -73,6 +73,9 @@ Route::prefix('/owner')->middleware('auth', 'cekLevel:owner')->group(function ()
     // laporan transaksi
     Route::get('transaction/report', [\App\Http\Controllers\OwnerController::class, 'transaction_report_view'])->name('transaction_report_view');
     Route::post('transaction/report', [\App\Http\Controllers\OwnerController::class, 'transaction_report_process'])->name('transaction_report_process');
+
+    Route::get('transaction/report/jurnal', [\App\Http\Controllers\OwnerController::class, 'transaction_report_jurnal_view'])->name('transaction_report_jurnal_views');
+    Route::post('transaction/report/jurnal', [\App\Http\Controllers\OwnerController::class, 'transaction_report_jurnal_process'])->name('transaction_report_jurnal_process');
 });
 
 Route::prefix('/kasir')->middleware('auth', 'cekLevel:kasir')->group(function () {
@@ -96,6 +99,12 @@ Route::prefix('/kasir')->middleware('auth', 'cekLevel:kasir')->group(function ()
     Route::post('/temporary/get', [\App\Http\Controllers\KasirController::class, 'temporary_get'])->name('temporary_get');
     Route::post('/temporary/delete', [\App\Http\Controllers\KasirController::class, 'temporary_delete'])->name('temporary_delete');
     Route::post('/transaction', [\App\Http\Controllers\KasirController::class, 'transaction_process'])->name('transaction_process');
+
+    // master account
+    Route::get('/master/account', [\App\Http\Controllers\KasirController::class, 'master_account'])->name('kasir_master_account');
+    Route::post('/master/account/insert/process', [\App\Http\Controllers\KasirController::class, 'master_account_tambah_proses'])->name('kasir_master_account_insert_process');
+    Route::post('/master/account/update/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_account_ubah_proses'])->name('kasir_master_account_update_process');
+    Route::get('/master/account/delete/process/{id}', [\App\Http\Controllers\KasirController::class, 'master_account_hapus_proses'])->name('kasir_master_account_delete_process');
 });
 
 

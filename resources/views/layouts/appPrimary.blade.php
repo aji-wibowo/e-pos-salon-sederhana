@@ -37,6 +37,14 @@
     <link rel="stylesheet" href="{{ url('/') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('/') }}/dist/css/style.css">
+
+    <style>
+        table .collapse.in {
+            display: table-row;
+        }
+
+    </style>
+
     <!-- jQuery -->
     <script src="{{ url('/') }}/plugins/jquery/jquery.min.js"></script>
 </head>
@@ -145,27 +153,35 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ url('/owner/transaction') }}" class="nav-link">
                                     <i class="nav-icon fas fa-credit-card"></i>
                                     <p>
                                         Transaction
                                     </p>
                                 </a>
-                            </li>
-                            <li class="nav-item">
+                            </li> --}}
+                            {{-- <li class="nav-item">
                                 <a href="{{ url('/owner/transaction/jurnal') }}" class="nav-link">
                                     <i class="nav-icon fas fa-book"></i>
                                     <p>
                                         Transaksi Jurnal
                                     </p>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a href="{{ route('transaction_report_view') }}" class="nav-link">
                                     <i class="nav-icon fas fa-file"></i>
                                     <p>
                                         Laporan Transaksi
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('transaction_report_jurnal_views') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    <p>
+                                        Laporan Jurnal
                                     </p>
                                 </a>
                             </li>
@@ -191,6 +207,14 @@
                                     <i class="nav-icon fas fa-list"></i>
                                     <p>
                                         Master Customer
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/kasir/master/account') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-list"></i>
+                                    <p>
+                                        Master Account
                                     </p>
                                 </a>
                             </li>

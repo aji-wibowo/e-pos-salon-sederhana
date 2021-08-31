@@ -16,9 +16,6 @@
                 <th align="left">ID</th>
                 <th align="left">Nama Customer</th>
                 <th align="left">Nama Kasir</th>
-                <th align="left">Nama Akun</th>
-                <th align="left">Type Akun</th>
-                <th align="left">Status Akun</th>
                 <th align="left">Total</th>
             </tr>
         </thead>
@@ -28,11 +25,6 @@
                     <td>{{ $t->id }}</td>
                     <td>{{ $t->customer->name }}</td>
                     <td>{{ $t->cashier->name }}</td>
-                    <td>{{ isset($t->jurnal->account->name) ? $t->jurnal->account->name : '-' }}</td>
-                    <td>{{ isset($t->jurnal->account->type_of_account) ? $t->jurnal->account->type_of_account : '-' }}
-                    </td>
-                    <td>{{ isset($t->jurnal->account->account_status) ? $t->jurnal->account->account_status : '-' }}
-                    </td>
                     <td>Rp. {{ $t->total }}</td>
                 </tr>
             @endforeach

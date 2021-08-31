@@ -603,8 +603,11 @@ class OwnerController extends Controller
 
     public function transaction_report_view()
     {
+        $transactions = Transaction::with('customer', 'cashier', 'jurnal.account', 'detail.product')->get();
+
         $parseData = [
-            'title' => 'Laporan Transaksi'
+            'title' => 'Laporan Transaksi',
+            'transactions' => $transactions
         ];
 
         return view('transaction.report.index', $parseData);
@@ -626,6 +629,40 @@ class OwnerController extends Controller
         ];
 
         $pdf = PDF::loadView('transaction.report.cetak', $parseData);
+
+        return $pdf->stream('laporan_transaksi.pdf');
+    }
+
+    public function transaction_report_jurnal_view()
+    {
+        $transactions = Account::all();
+
+        // dd($transactions);
+
+        $parseData = [
+            'title' => 'Laporan Jurnal',
+            'transactions' => $transactions
+        ];
+
+        return view('transaction.report.jurnal.index', $parseData);
+    }
+
+    public function transaction_report_jurnal_process(Request $r)
+    {
+        $r->validate([
+            'date_from' => 'required',
+            'date_to' => 'required'
+        ]);
+
+        $transactions = Account::whereBetween('created_at', [$r->date_from, $r->date_to])->get();
+
+        $parseData = [
+            'transactions' => $transactions,
+            'date_from' => $r->date_from,
+            'date_to' => $r->date_to,
+        ];
+
+        $pdf = PDF::loadView('transaction.report.jurnal.cetak', $parseData);
 
         return $pdf->stream('laporan_transaksi.pdf');
     }

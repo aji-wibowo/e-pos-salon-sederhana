@@ -27,4 +27,9 @@ class Transaction extends Model
     {
         return $this->hasOne('App\Models\JournalTransaction', 'transaction_id');
     }
+
+    public function detail()
+    {
+        return $this->hasMany('App\Models\TransactionProductDetail', 'transaction_id');
+    }
 }
